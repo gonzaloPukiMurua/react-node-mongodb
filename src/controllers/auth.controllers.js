@@ -3,10 +3,10 @@ import { services } from "../services/auth.services.js";
 import { bcrypt } from "../lib/bcrypt.services.js"
 
 export const controllers = {
-    signin: async (req, res) => {
+    login: async (req, res) => {
         try{
             const {email, password} = req.body;           
-            const userFound = await services.login({email});
+            const userFound = await services.findUserByEmail({email});
             if(!userFound) return res.status(400).json({message: "User not found!"});
             const passwordMatch = await bcrypt.decrypt(password, userFound.password);
             if(!passwordMatch) return res.status(400).json({message: "Incorrect password!"});
@@ -23,9 +23,9 @@ export const controllers = {
             console.error(`Error: ${error.message}`);
         }
     },
-    signup: async (req, res) => {
+    register: async (req, res) => {
+        const {username, email, password} = req.body;
         try{
-            const {username, email, password} = req.body;
             const user = {
                 username,
                 email,
@@ -48,5 +48,16 @@ export const controllers = {
     logout: (req, res) => {
         res.cookie("token", "", {expires: new Date(0)});
         return res.sendStatus(200)
+    },
+    profile: async (req, res) => {
+        const userFound = await services.findUserById(req.user.id);
+        if(!userFound) return res.status(401).json({message: "User not found!"});
+        return res.status(200).json({
+            id: userFound._id,
+            username: userFound.username,
+            email: userFound.email,
+            createdAt: userFound.createdAt,
+            updatedAt: userFound.updatedAt
+        });
     }
 }

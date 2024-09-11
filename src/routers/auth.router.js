@@ -1,9 +1,17 @@
 import express from "express";
 import { controllers } from "../controllers/auth.controllers.js";
+import { authorization } from "../middlewares/tokenValidation.js";
+import { validation } from "../middlewares/schemaValidation.js";
+import { schemas } from "../schemas/auth.schemas.js";
+
 const router = express.Router();
 
-router.post("/auth/signin", controllers.signin);
+router.post("/signin", validation(schemas.login), controllers.login);
 
-router.post("/auth/signup", controllers.signup);
+router.post("/signup", validation(schemas.register), controllers.register);
 
-router.post("/auth/logout", controllers.logout);
+router.post("/logout", controllers.logout);
+
+router.get("/profile", authorization, controllers.profile);
+
+export default router;

@@ -3,20 +3,16 @@ import { constrollers } from "../controllers/products.controllers.js";
 
 const router = express.Router();
 
-router.get("/product", (req, res) => {
-    res.status(200).json({message: "products"});
-})
+router.get("/all_products", constrollers.getProducts);
 
-router.get("/product/all_products", constrollers.getProducts);
+router.get("/:id", constrollers.getProductsById);
 
-router.get("/product/:id", constrollers.getProductsById);
+router.post("/add_product", constrollers.addProduct);
 
-router.post("/product/add_product", constrollers.addProduct);
+router.get("/edit/:id", constrollers.getProductsById)
 
-router.get("/product/edit/:id", constrollers.getProductsById)
+router.put("/edit/:id", constrollers.editProduct);
 
-router.put("/product/edit/:id", constrollers.editProduct);
-
-router.delete("/product/delete/:id", constrollers.deleteProduct);
+router.delete("/delete/:id", constrollers.deleteProduct);
 
 export default router;

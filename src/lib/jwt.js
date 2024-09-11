@@ -13,3 +13,7 @@ export const createAccesToken = (payload) => {
         );
     });
 }
+
+export const verifyAccesToken = (token, callback) => {
+    jwt.verify(token, process.env.SECRET_KEY, callback);
+}

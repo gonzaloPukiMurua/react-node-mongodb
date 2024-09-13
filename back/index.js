@@ -1,5 +1,8 @@
 import app from "./src/app.js";
 import {connection} from "./src/config/db.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const startApp = async () =>{
     try{

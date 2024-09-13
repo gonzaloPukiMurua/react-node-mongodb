@@ -1,16 +1,16 @@
-import request from "./axios.js";
+import {request} from "./axios.js";
 
 export const auth = {
-    register: (user) => {
-        request.post("/auth/singup", user)
+    register: async (user) => {
+        return await request.post("auth/signup", user);
     },
-    login: (user) => {
-        request.post("/auth/signin", user);
+    login: async (user) => {
+        return await request.post("auth/signin", user);
     },
-    logout: () => {
-        request.post("/auth/logout")
+    logout: async () => {
+        return await request.post("auth/logout")
     },
-    profile: () => {
-        return request.get("/auth/profile")
+    profile: async () => {
+        return await request.get("auth/profile")
     }
 }

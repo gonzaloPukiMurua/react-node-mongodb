@@ -3,3 +3,13 @@
 	"email" : "puki@gmail.com",
 	"password" : "puki1"
 },
+{
+	"username" : "Puki2",
+	"email" : "puki2@gmail.com",
+	"password" : "puki02"
+},
+{
+	"username" : "Puki3",
+	"email" : "puki3@gmail.com",
+	"password" : "puki03"
+}

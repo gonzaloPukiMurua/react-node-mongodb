@@ -1,6 +1,7 @@
 import { createAccesToken } from "../lib/jwt.js";
 import { services } from "../services/auth.services.js";
 import { bcrypt } from "../lib/bcrypt.services.js"
+import { Users } from "../models/user.model.js";
 
 export const controllers = {
     login: async (req, res) => {
@@ -26,6 +27,8 @@ export const controllers = {
     register: async (req, res) => {
         const {username, email, password} = req.body;
         try{
+            const userFound = await services.findUserByEmail(email);
+            if(userFound) return res.status(400).json({message: "User already exists."})
             const user = {
                 username,
                 email,

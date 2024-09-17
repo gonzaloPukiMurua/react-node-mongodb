@@ -10,23 +10,49 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({children}) => {
-    const [user, setUser] = useState(null); //state y seter del estado user;
-    const [authenticated, setAuthenticated] = useState(false);
+
+    const [user, setUser] = useState(null); //state y setState del estado user;
+    const [authenticated, setAuthenticated] = useState(false); //state y setState del estado authenticated;
+    const [errors, setErrors] = useState(false);
     const signup = async (user) => {
-        const response = await auth.register(user);
-        console.log(response);
-        setUser(response.data);
+        try{
+            const response = await auth.register(user);
+            console.log(response);
+            setUser(response.data);
+            setAuthenticated(true)
+        }catch(error){
+            console.error(`Error: ${error.message}`);
+            setErrors(error.response.data);
+        }
+        
     }
 
-    const authenticate = () => {
-        setAuthenticated(true)
+    const signin = async (user) => {
+        try{
+            const response = await auth.login(user);
+            console.log(response);
+
+        }catch(error){
+            console.error(`Error: ${error.message}`);
+        }
+    }
+
+    const logout = async (user) => {
+        try{
+            const response = await auth.logout(user);
+            console.log(response);
+        }catch(error){
+            console.error(`Error: ${error.message}`); 
+        }
     }
 
     return (
         <AuthContext.Provider value = {{
             signup,
+            signin,
+            logout,
+            errors,
             user,
-            authenticate,
             authenticated
             }}>
             {children}
